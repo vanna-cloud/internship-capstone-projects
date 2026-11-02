@@ -30,14 +30,21 @@ AlertDesk stores ticket data in a SQLite database.
 
 The database location is controlled by the `ALERTDESK_DB` environment variable. If this variable is not set, the application uses `data/alertdesk.sqlite`.
 
-Security-relevant actions are recorded in the `audit_events` table. Ticket creation, assignment, and status transitions are audited.
 
-SQLite `BEFORE UPDATE` and `BEFORE DELETE` triggers prevent existing audit records from being modified or deleted through normal database operations. Audit records are therefore append-only under the application's normal database operation. These triggers do not protect against an administrator with direct access to the database file who can alter the schema.
+
+Audit records are stored in the `audit_events` table. The application
+records ticket creation, assignment, and status transitions in the audit
+log. However, the current implementation does not enforce append-only
+behavior at the database level. Existing audit records can be modified
+or deleted by anyone with sufficient SQL write access to the database.
+
+Production deployments should implement appropriate audit-log integrity
+and access controls to prevent unauthorized modification or deletion.
+
 
 Audit logs must not contain passwords, bearer tokens, or other sensitive secrets.
 
 Database backups should be performed regularly according to the deployment environment's backup and recovery requirements. Backups should be stored securely and tested periodically.
-
 ## Scope limitations
 
 This security policy applies to the AlertDesk internship/scaffold
