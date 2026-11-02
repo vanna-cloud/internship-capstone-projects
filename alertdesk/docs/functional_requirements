@@ -72,19 +72,19 @@ FR-11
 
 Audit ticket creation
 
-The system shall record ticket-creation actions in an append-only audit trail.
+The system shall record ticket-creation actions in an audit trail.
 
 FR-12
 
 Audit assignment
 
-The system shall record ticket-assignment actions in an append-only audit trail.
+The system shall record ticket-assignment actions in an audit trail.
 
 FR-13
 
 Audit status transition
 
-The system shall record ticket-status transitions in an append-only audit trail.
+The system shall record ticket-status transitions in an audit trail.
 
 FR-14
 
@@ -114,13 +114,21 @@ Lead         Yes           Yes           Yes          Yes
 
 Admin        Yes           Yes           Yes           Yes
 
-4. Current Sample Workflow
+4.  Current Sample Workflow
 
-The current sample workflow is:
+The current sample workflow is defined by `config/client-spec.json`.
 
-New → Triaged → Assigned → Resolved → Closed
+Legal transitions are:
 
-The application shall not allow arbitrary status jumps. The legal transitions must be read from the JSON specification.
+- `new` → `triaged` or `closed`
+- `triaged` → `assigned` or `closed`
+- `assigned` → `resolved` or `closed`
+- `resolved` → `closed`
+- `closed` → no further status
+
+The application shall read the legal transitions from the JSON specification and reject status changes that are not permitted. Direct transitions to `closed` are allowed where defined by the client specification.
+
+
 
 5. Acceptance Criteria
 
@@ -150,7 +158,7 @@ An attempted illegal status transition is rejected.
 
 Audit trail
 
-Creating, assigning, or transitioning a ticket creates an append-only audit record identifying the actor and time.
+Creating, assigning, or transitioning a ticket creates an audit record identifying the actor and time.
 
 Configuration
 
@@ -176,4 +184,4 @@ The client specification is the source of truth for configurable workflow elemen
 
 8. Summary
 
-AlertDesk must provide a service for creating, viewing, assigning, and progressing security tickets. It must enforce role permissions, reject illegal status transitions, maintain an append-only audit trail, and expose OpenAPI documentation. The workflow and role rules must remain configurable through the client specification.
+AlertDesk must provide a service for creating, viewing, assigning, and progressing security tickets. It must enforce role permissions, reject illegal status transitions, maintain an audit trail, and expose OpenAPI documentation. The workflow and role rules must remain configurable through the client specification.
