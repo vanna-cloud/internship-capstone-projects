@@ -23,7 +23,7 @@ No latency target is specified in the client brief. The following local
 development run is a recorded baseline; it is not a production service-level
 objective.
 
-### Recorded run
+#### October 28, 2026 run
 
 - Date: 2026-10-28
 - Command: `python scripts/benchmark.py --base-url http://127.0.0.1:8765 --token analyst-token --iterations 100 --warmup 5`
@@ -59,6 +59,39 @@ objective.
 
 The API was started locally on port 8765 with `ALERTDESK_DB` pointed at the
 disposable database. The tracked development database was left unchanged.
+
+#### November 3, 2026 run
+
+- Date: 2026-11-03
+- Command: `python scripts/benchmark.py --base-url http://127.0.0.1:8765 --token analyst-token --iterations 100 --warmup 5`
+- Database: disposable SQLite database; 40,960 bytes after the run (105 tickets and 105 audit events, including five warm-up pairs).
+- Measured iterations: 100 create/list pairs (plus five warm-up pairs).
+- Emitted summary:
+
+```json
+{
+  "base_url": "http://127.0.0.1:8765",
+  "iterations": 100,
+  "warmup": 5,
+  "units": "ms",
+  "create_ticket": {
+    "count": 100,
+    "mean_ms": 20.029,
+    "median_ms": 19.222,
+    "p95_ms": 36.804,
+    "min_ms": 9.771,
+    "max_ms": 38.485
+  },
+  "list_tickets": {
+    "count": 100,
+    "mean_ms": 15.642,
+    "median_ms": 11.91,
+    "p95_ms": 30.017,
+    "min_ms": 6.566,
+    "max_ms": 38.602
+  }
+}
+```
 
 ## Request logging
 
