@@ -32,10 +32,11 @@ The database location is controlled by the `ALERTDESK_DB` environment
 variable.
 
 Security-relevant actions are recorded in the `audit_events` table. Ticket
-creation, assignment, and status transitions are audited. SQLite
-`BEFORE UPDATE` and `BEFORE DELETE` triggers abort attempts to change or remove
-audit rows, enforcing append-only behavior through normal database
-operations.
+creation, assignment, and status transitions are audited. While the SQLite
+`BEFORE UPDATE` and `BEFORE DELETE` triggers remain in place, they block
+ordinary attempts to modify or delete audit records. This is not tamper-proof
+protection against someone with sufficient access to the database file or
+schema.
 
 Audit logs must not contain passwords, bearer tokens, or other sensitive
 secrets.
@@ -60,4 +61,4 @@ The following are outside the current scaffold scope:
 - Slack integration
 - SIEM connectors
 - SSO
-- Multi-region operation 
+- Multi-region operation

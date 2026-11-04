@@ -27,9 +27,9 @@ fresh database and a copy of the prior release's database.
 
 The API writes one structured JSON log event for each HTTP request. Each event
 includes the request method, URL path, response status code, and duration in
-milliseconds. The middleware does not log credentials or request bodies. These
-logs are emitted to the container's standard output and can be collected by the
-container runtime's logging system.
+milliseconds. The middleware does not log credentials or request bodies. These logs
+are emitted to the container's standard error stream (stderr) and can be
+collected by the container runtime's logging system.
 
 The CI `container-scan` job builds this Dockerfile and fails on Trivy HIGH or
 CRITICAL findings.

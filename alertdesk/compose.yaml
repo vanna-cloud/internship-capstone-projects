@@ -3,7 +3,7 @@ services:
     build:
       context: .
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8001:8000"
     volumes:
       - alertdesk-data:/app/data
     restart: unless-stopped
